@@ -134,10 +134,10 @@ public class UIManager {
 
         List<WelcomeScreen> res = new ArrayList<WelcomeScreen>();
 
-        res.add(new WelcomeScreen("Messaging in your apps", "Over 79% of all apps require some form of communications. Mesibo is built from ground-up to power this!", 0, R.drawable.welcome, 0xff00868b));
-        res.add(new WelcomeScreen("Messaging, Voice, & Video", "Complete infrastructure with powerful APIs to get you started, rightaway!", 0, R.drawable.videocall, 0xff0f9d58));
+        res.add(new WelcomeScreen("Team Dapodik Gempol", "Salam Satu Data !!!", 0, R.drawable.welcome, 0xff00868b));
+        res.add(new WelcomeScreen("Kerja Kita Prestasi Bangsa", "Satu Nusa Satu Bangsa Satu Bahasa Satu Data !!!", 0, R.drawable.videocall, 0xff0f9d58));
         //res.add(new WelcomeScreen("Plug & Play", "Not just APIs, you can even use pluggable UI modules - Buid in just a few hours", 0, R.drawable.profile, 0xfff4b400));
-        res.add(new WelcomeScreen("Open Source", "Quickly integrate Mesibo in your own app using freely available source code", 0, R.drawable.opensource_ios, 0xff054a61));
+        res.add(new WelcomeScreen("Gempol Kompak Yes !!!", "Kompak!!! Solidaritas Tanpa Batas", 0, R.drawable.opensource_ios, 0xff054a61));
 
         //res.add(new WelcomeScreen("No Sweat Pricing", "Start free & only pay as you grow!", 0, R.drawable.users, 0xff0f9d58));
 
@@ -146,7 +146,7 @@ public class UIManager {
 
 
         config.mScreens = res;
-        config.mWelcomeBottomText = "Mesibo will never share your information";
+        config.mWelcomeBottomText = "Will never share your information"";
         config.mWelcomeBackgroundColor = 0xff00868b;
 
         config.mBackgroundColor = 0xffffffff;
@@ -163,8 +163,8 @@ public class UIManager {
         permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         permissions.add(Manifest.permission.READ_CONTACTS);
         config.mPermissions = permissions;
-        config.mPermissionsRequestMessage = "Mesibo requires Storage and Contacts permissions so that you can send messages and make calls to your contacts. Please grant to continue!";
-        config.mPermissionsDeniedMessage = "Mesibo will close now since the required permissions were not granted";
+        config.mPermissionsRequestMessage = "Requires Storage and Contacts permissions so that you can send messages and make calls to your contacts. Please grant to continue!";
+        config.mPermissionsDeniedMessage = "Will close now since the required permissions were not granted";
 
 
         MesiboUiHelper.setConfig(config);
