@@ -98,7 +98,7 @@ public class StartUpActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(SampleAPI.getToken())) {
             MesiboUiHelperConfig.mDefaultCountry = ContactUtils.getCountryCode();
-            MesiboUiHelperConfig.mPhoneVerificationBottomText = "Note, Mesibo may call instead of sending an SMS if SMS delivery to your phone fails.";
+            MesiboUiHelperConfig.mPhoneVerificationBottomText = "May call instead of sending an SMS if SMS delivery to your phone fails.";
             if(null == MesiboUiHelperConfig.mDefaultCountry) {
                 MesiboUiHelperConfig.mDefaultCountry = "91";
             }
