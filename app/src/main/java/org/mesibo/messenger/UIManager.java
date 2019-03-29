@@ -146,7 +146,7 @@ public class UIManager {
 
 
         config.mScreens = res;
-        config.mWelcomeBottomText = "Will never share your information"";
+        config.mWelcomeBottomText = "Will never share your information";
         config.mWelcomeBackgroundColor = 0xff00868b;
 
         config.mBackgroundColor = 0xffffffff;
