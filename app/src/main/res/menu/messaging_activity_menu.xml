@@ -38,9 +38,9 @@
     <item
         android:id="@id/mesibo_contacts"
         android:icon="@drawable/ic_message_white_24dp"
-        app:showAsAction="always"
         android:orderInCategory="0"
-        android:title="Add" />
+        android:title="Add"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/mesibo_share"

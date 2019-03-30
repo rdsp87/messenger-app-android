@@ -85,7 +85,218 @@ public class SampleAPI  {
     public static final int VISIBILITY_VISIBLE = 1;
     public static final int VISIBILITY_UNCHANGED = 2;
 
-    private static final String DEFAULT_FILE_URL = "https://media.mesibo.com/files/31
+    private static final String DEFAULT_FILE_URL = "https://media.mesibo.com/files/";
+
+
+    public static abstract class ResponseHandler implements Mesibo.HttpListener {
+        private Mesibo.Http http = null;
+        private Bundle mRequest = null;
+        private boolean mBlocking = false;
+        private boolean mOnUiThread = false;
+        public static boolean result = true;
+        public Context mContext = null;
+
+        @Override
+        public boolean Mesibo_onHttpProgress(Mesibo.Http http, int state, int percent) {
+            if(percent < 0) {
+                HandleAPIResponse(null);
+                return true;
+            }
+
+            if(100 == percent && Mesibo.Http.STATE_DOWNLOAD == state) {
+                String strResponse = http.getDataString();
+                Response response = null;
+
+                if (null != strResponse) {
+                    try {
+                        response = mGson.fromJson(strResponse, Response.class);
+                    } catch (Exception e) {
+                        result = false;
+                    }
+                }
+
+                if(null == response)
+                    result = false;
+
+                final Context context = (null == this.mContext)?SampleAPI.mContext:this.mContext;
+
+                if(!mOnUiThread) {
+                    parseResponse(response, mRequest, context, false);
+                    HandleAPIResponse(response);
+                }
+                else {
+                    final Response r = response;
+
+                    if(null == context)
+                        return true;
+
+                    Handler uiHandler = new Handler(context.getMainLooper());
+
+                    Runnable myRunnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            parseResponse(r, mRequest, context, true);
+                            HandleAPIResponse(r);
+                        }
+                    };
+                    uiHandler.post(myRunnable);
+                }
+            }
+            return true;
+        }
+
+        public void setBlocking(boolean blocking) {
+            mBlocking = blocking;
+        }
+
+        public void setOnUiThread(boolean onUiThread) {
+            mOnUiThread = onUiThread;
+        }
+
+        public boolean sendRequest(Bundle postBunlde, String filePath, String formFieldName) {
+
+            postBunlde.putString("dt", String.valueOf(Mesibo.getDeviceType()));
+            int nwtype = Mesibo.getNetworkConnectivity();
+            if(nwtype == 0xFF) {
+
+            }
+
+            mRequest = postBunlde;
+            http = new Mesibo.Http();
+            http.url = mApiUrl;
+            http.postBundle = postBunlde;
+            http.uploadFile = filePath;
+            http.uploadFileField = formFieldName;
+            http.notifyOnCompleteOnly = true;
+            http.concatData = true;
+            http.listener = this;
+            if(mBlocking)
+                return http.executeAndWait();
+            return http.execute();
+        }
+
+        public void setContext(Context context) {
+            this.mContext = context;
+        }
+
+        public Context getContext() {
+            return this.mContext;
+        }
+
+        public abstract void HandleAPIResponse(Response response);
+    }
+
+    public static class Urls {
+        public String upload = "";
+        public String download = "";
+    }
+
+    public static class Invite {
+        public String text = "";
+        public String subject = "";
+        public String title = "";
+    }
+
+    public static class Contacts {
+        public String name = "";
+        public String phone = "";
+        public long   gid = 0;
+        public long   ts = 0;
+        public String status = "";
+        public String photo = "";
+        public String tn = "";
+        public String members = "";
+    }
+
+    public static class Response {
+        public String result;
+        public String op;
+        public String error;
+        public String token;
+        public Contacts[] contacts;
+        public String name;
+        public String status;
+        public String members;
+        public String photo;
+        public String phone;
+        public String cc;
+
+        public Urls urls;
+        public Invite share;
+
+        public long gid;
+        public int type;
+        public int profile;
+        public long ts = 0;
+        public String tn = null;
+
+        Response() {
+            result = null;
+            op = null;
+            error = null;
+            token = null;
+            contacts = null;
+            gid = 0;
+            type = 0;
+            profile = 0;
+            urls = null;
+        }
+    }
+
+    private static Gson mGson = new Gson();
+    private static String mApiUrl = "https://app.mesibo.com/api.php";
+    private static long mContactTs = 0;
+
+    private static boolean invokeApi(final Context context, final Bundle postBunlde, String filePath, String formFieldName, boolean uiThread) {
+        ResponseHandler http = new ResponseHandler() {
+            @Override
+            public void HandleAPIResponse(Response response) {
+
+            }
+        };
+
+        http.setContext(context);
+        http.setOnUiThread(uiThread);
+        return http.sendRequest(postBunlde, filePath, formFieldName);
+    }
+
+    public static String phoneBookLookup(String phone) {
+        if(TextUtils.isEmpty(phone))
+            return null;
+
+        return  ContactUtils.reverseLookup(phone);
+    }
+
+    public static void updateDeletedGroup(long gid) {
+        if(0 == gid) return;
+        Mesibo.UserProfile u = Mesibo.getUserProfile(gid);
+        if(null == u) return;
+        u.flag |= Mesibo.UserProfile.FLAG_DELETED;
+        u.status = "Not a group member"; // can be better handle dynamically
+        Mesibo.setUserProfile(u, false);
+    }
+
+    public static void createContact(String name, String phone,  long groupid, String status, String members, String photo, String tnBasee64, long ts, long when, boolean selfProfile, boolean refresh, int visibility) {
+        Mesibo.UserProfile u = new Mesibo.UserProfile();
+        u.address = phone;
+        u.groupid = groupid;
+
+        if(!selfProfile && 0 == u.groupid)
+            u.name = phoneBookLookup(phone);
+
+        if(TextUtils.isEmpty(u.name))
+            u.name = name;
+
+        if(TextUtils.isEmpty(u.name)) {
+            u.name = phone;
+            if(TextUtils.isEmpty(u.name))
+                u.name = "Group-" + groupid;
+        }
+
+        if(groupid == 0 && !TextUtils.isEmpty(phone) && phone.equalsIgnoreCase("0")) {
+            u.name = "hello";
+            return;
+        }
 
         u.status = status; // Base64.decode(c[i].status, Base64.DEFAULT).toString();
 
