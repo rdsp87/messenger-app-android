@@ -34,16 +34,16 @@
             >
 
             <TextView
+                android:id="@+id/mesibologo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|center_horizontal"
-                android:gravity="center_horizontal"
-                android:text="mesibo"
                 android:layout_marginTop="30dp"
+                android:gravity="center_horizontal"
                 android:padding="5dp"
-                android:textSize="72dp"
+                android:text="Team Dapodik Gempol"
                 android:textColor="@color/white"
-                android:id="@+id/mesibologo" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/version"
@@ -94,10 +94,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="5sp"
                 android:layout_marginTop="5sp"
+                android:layout_marginBottom="5sp"
                 android:autoLink="web"
-                android:text="https://mesibo.com"
+                android:text="https://teamdapodikgempol.ddns.net/"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColorLink="@color/white" />
 

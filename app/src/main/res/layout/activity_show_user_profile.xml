@@ -56,15 +56,15 @@
                     android:animateLayoutChanges="true"
                     android:layout_weight="1"
                     >
+
                     <TextView
                         android:id="@+id/up_user_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="+91902345674"
-                        android:textSize="30dp"
                         android:singleLine="true"
+                        android:text="1234567890"
                         android:textColor="@color/md_white_1000"
-                        />
+                        android:textSize="30dp" />
                     <TextView
                         android:id="@+id/up_current_status"
                         android:layout_width="match_parent"

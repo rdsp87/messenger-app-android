@@ -39,15 +39,15 @@
             android:layout_toRightOf="@+id/sp_rv_profile"
             android:weightSum="1"
             >
+
             <TextView
-                android:layout_weight="1"
+                android:id="@+id/sp_rv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Mesibo Username"
-                android:id="@+id/sp_rv_name"
-                android:textSize="16sp"
+                android:layout_weight="1"
+                android:text="Username"
                 android:textColor="#a1a1a1"
-                 />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/admin_info"
